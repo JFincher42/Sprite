@@ -9,9 +9,11 @@ c = pygame.time.Clock()
 
 xpos = 100
 ypos = 100
-spaceship = sprite.Sprite(os.path.join(
-    ".", "spaceship_sprite.png"), xpos, ypos)
-sheet = imagesheet.ImageSheet(os.path.join(".", "spaceship_sprite.png"), 5, 5)
+sheet = imagesheet.ImageSheet(os.path.join(".", "spaceship_sprite.png"), 2, 2)
+print("Sheet count = " + str(sheet.SPRITECOUNT))
+#spaceship = sprite.Sprite(os.pah.join(".", "spaceship_sprite.png"), xpos, ypos)
+spaceship = sprite.Sprite(sheet, xpos, ypos)
+#spaceship.current_sprite = 1
 
 drawing = True
 while drawing:

@@ -18,7 +18,7 @@ class ImageSheet:
         '''
 
         # Initilize the list of sprites and the current sprite
-        self.sprites = []
+        self.sprite_list = []
 
         # Load the sheet as an image, and get the extents
         sheet = pygame.image.load(image).convert_alpha()
@@ -36,6 +36,6 @@ class ImageSheet:
                 # So we can set the image clip to a rectangle starting there
                 # with width and height set to sprite_width and sprite_height
                 sheet.set_clip(pygame.Rect(x, y, sprite_width, sprite_height))
-                self.sprites.append(sheet.subsurface(sheet.get_clip()))
+                self.sprite_list.append(sheet.subsurface(sheet.get_clip()))
 
-        self.SPRITECOUNT = len(self.sprites)
+        self.SPRITECOUNT = len(self.sprite_list)
