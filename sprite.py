@@ -48,6 +48,6 @@ class Sprite(pygame.sprite.Sprite):
 
     def update(self):
         self.current_sprite += 1
-        if self.current_sprite >= len(image_list):
+        if self.current_sprite >= len(self.image_list):
             self.current_sprite = 0
         self.image = self.image_list[self.current_sprite]
