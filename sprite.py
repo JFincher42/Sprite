@@ -1,5 +1,5 @@
 import pygame
-
+import imagesheet
 # Define some constants
 WHITE = (255, 255, 255)
 BLACK = (0,   0,   0)
@@ -18,14 +18,14 @@ class Sprite(pygame.sprite.Sprite):
             # Single image - load it into our image list
             # Load the image we're given,set transparency, and get the bounding rectangle
             self.image_list.append(pygame.image.load(image).convert_alpha())
-            self.rect = self.image[0].get_rect()
-            self.image[0].set_colorkey(WHITE)
-            self.width = self.image[0].get_width()
-            self.height = self.image[0].get_height()
+            self.rect = self.image_list[0].get_rect()
+            self.image_list[0].set_colorkey(WHITE)
+            self.width = self.image_list[0].get_width()
+            self.height = self.image_list[0].get_height()
             self.center = (xpos+self.width/2, ypos+self.height/2)
 
-        else:
-            # We were given a list, so we can use that instead
+        elif image is ImageSheet:
+            # We were given an ImageSheet, so we can use that instead
             pass
 
         # Set the position of the item
@@ -38,4 +38,5 @@ class Sprite(pygame.sprite.Sprite):
 
     # Draws the sprite onto the provided surface
     def draw(self, surf):
+        self.image = self.image_list[0]
         self.mygroup.draw(surf)
