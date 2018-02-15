@@ -38,5 +38,6 @@ class Sprite(pygame.sprite.Sprite):
 
     # Draws the sprite onto the provided surface
     def draw(self, surf):
-        self.image = self.image_list[0]
+        if len(image_list) == 1:
+            self.image = self.image_list[0]
         self.mygroup.draw(surf)
