@@ -10,9 +10,9 @@ c = pygame.time.Clock()
 xpos = 100
 ypos = 100
 sheet = imagesheet.ImageSheet(os.path.join(".", "spaceship_sprite.png"), 2, 2)
-#spaceship = sprite.Sprite(os.pah.join(".", "spaceship_sprite.png"), xpos, ypos)
-spaceship = sprite.Sprite(sheet, xpos, ypos)
-#spaceship.current_sprite = 1
+spaceship = sprite.Sprite(os.path.join(".", "spaceship_sprite.png"), xpos, ypos)
+#spaceship = sprite.Sprite(sheet, xpos, ypos)
+#spaceship.current_sprite = 2
 
 drawing = True
 while drawing:
@@ -21,10 +21,9 @@ while drawing:
             drawing = False
 
     w.fill((128, 128, 128))
-    xpos += 2
-    if xpos > 400:
-        xpos = 0
-    spaceship.rect.x = xpos
+    x,y = pygame.mouse.get_pos()
+    spaceship.center = (x,y)
+    spaceship.flip_y = True
     spaceship.draw(w)
     pygame.display.flip()
     c.tick(30)
