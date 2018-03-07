@@ -102,3 +102,6 @@ ENV/
 
 # VSCode stuff
 .vscode/
+
+# PyLint RC file
+.pylintrc

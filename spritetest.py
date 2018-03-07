@@ -1,6 +1,6 @@
 import sprite
 import imagesheet
-import pygame
+import pygame           # pylint: disable=E1101
 import os
 
 pygame.init()
