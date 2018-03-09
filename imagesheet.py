@@ -17,7 +17,7 @@ class ImageSheet:
         param: col is the numbers of columns of images
         '''
 
-        # Initilize the list of sprites and the current sprite
+        # Initialize the list of sprites and the current sprite
         self.sprite_list = []
 
         # Load the sheet as an image, and get the extents
@@ -30,8 +30,10 @@ class ImageSheet:
         sprite_height = sheet_height//row
 
         # Now loop through the sheet sprite by sprite
-        for y in range(0, sheet_height, sprite_height):
-            for x in range(0, sheet_width, sprite_width):
+        for rows in range(row):
+            y = rows * sprite_height
+            for cols in range(col):
+                x = cols * sprite_width
                 # At this point, x,y is the upper left corner of the sprite
                 # So we can set the image clip to a rectangle starting there
                 # with width and height set to sprite_width and sprite_height
