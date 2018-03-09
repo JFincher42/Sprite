@@ -213,8 +213,8 @@ class Sprite(pygame.sprite.Sprite):
         # Add this to it's own group for rendering
         self.mygroup = pygame.sprite.GroupSingle(self)
 
-    # Draws the sprite onto the provided surface
-    def draw(self, surf):
+    # Draws the sprite onto the current surface
+    def draw(self):
         # If it's a single image, grab it.  Else, grab the next one in line
         if len(self.image_list) == 1:
             self.image = self.image_list[0]
@@ -222,11 +222,10 @@ class Sprite(pygame.sprite.Sprite):
             self.image = self.image_list[self.current_sprite]
 
         # Flip if necessary
-        self.image = pygame.transform.flip(
-            self.image, self.__flip_x, self.__flip_y)
+        self.image = pygame.transform.flip(self.image, self.__flip_x, self.__flip_y)
 
         # Draw it
-        self.mygroup.draw(surf)
+        self.mygroup.draw(pygame.display.get_surface())
 
     def update(self):
         self.current_sprite += 1
