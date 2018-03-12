@@ -160,6 +160,7 @@ class Sprite(pygame.sprite.Sprite):
         Sets the scale at which we display the image
         '''
         self.__scale = new_scale
+        #TODO: Update the __image_list and self.rect fields
 
     # Angle to which the image should be rotated
     @property
@@ -254,8 +255,17 @@ class Sprite(pygame.sprite.Sprite):
             self.image, self.__flip_x, self.__flip_y)
 
         # Rotate and scale
-        self.image = pygame.transform.rotozoom(
-            self.image, self.__angle, self.__scale)
+        #self.image = pygame.transform.rotozoom(
+        #    self.image, self.__angle, self.__scale)
+        #TODO: Inspect this code closely and rewrite
+        width = int(self.rect.width * self.__scale)
+        height = int(self.rect.height * self.__scale)
+        newimage = pygame.transform.scale(self.image, (width, height))
+        self.image = pygame.Surface((width, height), flags=pygame.SRCALPHA)
+        self.image.blit(newimage, (0,0), (0,0,width,height))
+        self.image = pygame.transform.rotate(self.image, self.__angle)
+        self.rect = self.image.get_rect()
+
         # TODO: Rotation looks wierd, might want to try something different
 
         # Draw it

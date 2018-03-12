@@ -15,6 +15,11 @@ spaceship = sprite.Sprite(os.path.join(".", "spaceship_sprite.png"), xpos, ypos)
 bullwinkle_sheet = imagesheet.ImageSheet(os.path.join(".", "Bullwinkle_Sprites.png"), 1, 6)
 bullwinkle = sprite.Sprite(bullwinkle_sheet, xpos, ypos)
 
+dragon_sheet = imagesheet.ImageSheet(os.path.join(".", "dragonflying.png"), 4, 6)
+dragon = sprite.Sprite(dragon_sheet, xpos, ypos)
+dragon.scale = 0.5
+print("Width=" + str(dragon.rect.width) + ", Height=" + str(dragon.rect.height))
+
 #spaceship = sprite.Sprite(sheet, xpos, ypos)
 #spaceship.current_sprite = 2
 
@@ -31,8 +36,13 @@ while drawing:
     #spaceship.angle += 1
     #spaceship.draw()
 
-    bullwinkle.center = (x,y)
-    bullwinkle.update(c.get_time())
-    bullwinkle.draw()
+    #bullwinkle.center = (x,y)
+    #bullwinkle.update(c.get_time())
+    #bullwinkle.draw()
+
+    dragon.center = (x,y)
+    dragon.update(c.get_time())
+    dragon.draw()
+
     pygame.display.flip()
     c.tick(30)
