@@ -11,6 +11,8 @@ xpos = 100
 ypos = 100
 sheet = imagesheet.ImageSheet(os.path.join(".", "spaceship_sprite.png"), 2, 2)
 spaceship = sprite.Sprite(os.path.join(".", "spaceship_sprite.png"), xpos, ypos)
+spaceship = sprite.Sprite(os.path.join(
+    ".", "spaceship_sprite.png"), xpos, ypos)
 #spaceship = sprite.Sprite(sheet, xpos, ypos)
 #spaceship.current_sprite = 3
 
@@ -21,9 +23,16 @@ while drawing:
             drawing = False
 
     w.fill((128, 128, 128))
+<<<<<<< HEAD
     x,y = pygame.mouse.get_pos()
     spaceship.center = (x,y)
     spaceship.flip_y = False
+=======
+    x, y = pygame.mouse.get_pos()
+    spaceship.center = (x, y)
+    #spaceship.flip_y = True
+    spaceship.angle += 1
+>>>>>>> c9f2863386223ea03eafe4550548c36d9e4f29cd
     spaceship.draw()
     pygame.display.flip()
     c.tick(30)
