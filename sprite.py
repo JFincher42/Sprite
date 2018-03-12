@@ -22,7 +22,7 @@ class Sprite(pygame.sprite.Sprite):
                           a single image is in __image_list[0]
       __current_cell    - which image are we displaying?
 
-      center            - center of the image rect
+      center            - center of the image rect as a tuple
                           includes center_x and center_y
       x,y               - x and y coordinates of the upper left corner
                           of the image rect
@@ -33,6 +33,9 @@ class Sprite(pygame.sprite.Sprite):
 
     R/O Fields:
       __destroyed       - have we destroyed this sprite?
+
+    Internal fields:
+      __last_update     - when did we last update the sprite?
 
     Methods
       draw              - draws the sprite at the current location
@@ -198,6 +201,9 @@ class Sprite(pygame.sprite.Sprite):
         # Call the super init first
         pygame.sprite.Sprite.__init__(self)
 
+        # Setup the time
+        self.__last_time = pygame.time.get_ticks()
+
         self.__image_list = []
 
         # Were we given a single image, or an object?
@@ -255,8 +261,11 @@ class Sprite(pygame.sprite.Sprite):
         # Draw it
         self.mygroup.draw(pygame.display.get_surface())
 
-    def update(self):
-        self.__current_cell += 1
-        if self.__current_cell >= len(self.image_list):
-            self.__current_cell = 0
-        self.image = self.image_list[self.__current_cell]
+    def update(self, ticks):
+        elapsed = pygame.time.get_ticks() - self.__last_time
+        if elapsed > ticks:
+            self.__last_time = pygame.time.get_ticks()
+            self.__current_cell += 1
+            if self.__current_cell >= len(self.__image_list):
+                self.__current_cell = 0
+            self.image = self.__image_list[self.__current_cell]
