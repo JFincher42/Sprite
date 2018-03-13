@@ -160,10 +160,10 @@ class Sprite(pygame.sprite.Sprite):
         Sets the scale at which we display the image
         '''
         self.__scale = new_scale
-        self.rect.width = self.image.get_rect().width * new_scale
-        self.rect.height = self.image.get_rect().height * new_scale
-        self.rect.x = self.image.get_rect().x
-        self.rect.y = self.image.get_rect().y
+
+        # Change the bounding rectangle as well
+        self.rect.width = self.__orig_rect.width * new_scale
+        self.rect.height = self.__orig_rect.height * new_scale
         #TODO: Update the __image_list and self.rect fields when the scale is updated
         #TODO: Can we do this multiple times?
 
@@ -251,7 +251,10 @@ class Sprite(pygame.sprite.Sprite):
             self.__current_cell = 0
             self.__image_animation_rate = 30
 
+        # Set the bounding rectangle, and the original rectangle
+        # Use the original rectangle for scaling purposes
         self.rect = self.image.get_rect()
+        self.__orig_rect = self.rect.copy()
         self.__image_list[0].set_colorkey(WHITE)
         #self.width = self.rect.width
         #self.height = self.rect.height
@@ -295,8 +298,10 @@ class Sprite(pygame.sprite.Sprite):
             self.image, self.__flip_x, self.__flip_y)
 
         # Rotate and scale
-        self.image = pygame.transform.rotozoom(
-            self.image, self.__angle, self.__scale)
+        #self.image = pygame.transform.rotozoom(
+        #    self.image, self.__angle, self.__scale)
+        self.image = pygame.transform.scale(self.image, (self.rect.width, self.rect.height))
+        self.image = pygame.transform.rotate(self.image, self.__angle)
         #self.rect.width *= self.__scale
         #self.rect.height *= self.__scale
 

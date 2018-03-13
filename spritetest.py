@@ -34,6 +34,7 @@ while drawing:
             if dragon.scale <= 0.5 or dragon.scale >= 1.5:
                 scalefact *= -1
             dragon.scale = dragon.scale + scalefact
+            print("Scale = " + str(dragon.scale))
 
     w.fill((128, 128, 128))
     x, y = pygame.mouse.get_pos()
