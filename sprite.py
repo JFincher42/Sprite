@@ -160,7 +160,12 @@ class Sprite(pygame.sprite.Sprite):
         Sets the scale at which we display the image
         '''
         self.__scale = new_scale
-        #TODO: Update the __image_list and self.rect fields
+        self.rect.width = self.image.get_rect().width * new_scale
+        self.rect.height = self.image.get_rect().height * new_scale
+        self.rect.x = self.image.get_rect().x
+        self.rect.y = self.image.get_rect().y
+        #TODO: Update the __image_list and self.rect fields when the scale is updated
+        #TODO: Can we do this multiple times?
 
     # Angle to which the image should be rotated
     @property
@@ -176,6 +181,27 @@ class Sprite(pygame.sprite.Sprite):
         Sets the angle at which we display the image
         '''
         self.__angle = new_angle
+        # TODO: When setting the angle, apply it to every image
+        # TODO: Can we do this multiple times?
+
+    @property
+    def image_animation_rate(self):
+        '''
+        Returns the current image animation rate
+        '''
+        return self.__image_animation_rate
+
+    @image_animation_rate.setter
+    def image_animation_rate(self, new_iar):
+        self.__image_animation_rate = new_iar
+
+    @property
+    def visible(self):
+        return self.__visible
+
+    @visible.setter
+    def visible(self, new_visible):
+        self.__visible = new_visible
 
     # Has this sprite been destroyed?
     # Set by the destroy() function
@@ -198,6 +224,8 @@ class Sprite(pygame.sprite.Sprite):
         - flip_x and flip_y to False
         - scale to 1.0
         - angle to 0
+        - visible to True
+        - destroyed to False
         '''
         # Call the super init first
         pygame.sprite.Sprite.__init__(self)
@@ -205,6 +233,7 @@ class Sprite(pygame.sprite.Sprite):
         # Setup the time
         self.__last_time = pygame.time.get_ticks()
 
+        # Blank the image list
         self.__image_list = []
 
         # Were we given a single image, or an object?
@@ -212,16 +241,20 @@ class Sprite(pygame.sprite.Sprite):
             # Single image - load it into our image list
             # Load the image we're given,set transparency, and get the bounding rectangle
             self.__image_list.append(pygame.image.load(image).convert_alpha())
+            self.image = self.__image_list[0]
+            self.__current_cell = 0
 
         elif type(image) is imagesheet.ImageSheet:
             # We were given an ImageSheet, so we can use that instead
             self.__image_list = list(image.sprite_list)
+            self.image = self.__image_list[0]
             self.__current_cell = 0
+            self.__image_animation_rate = 30
 
-        self.rect = self.__image_list[0].get_rect()
+        self.rect = self.image.get_rect()
         self.__image_list[0].set_colorkey(WHITE)
-        self.width = self.rect.width
-        self.height = self.rect.height
+        #self.width = self.rect.width
+        #self.height = self.rect.height
 
         # Set the position of the item
         self.rect.x = xpos
@@ -234,9 +267,11 @@ class Sprite(pygame.sprite.Sprite):
 
         self.__scale = 1.0
         self.__angle = 0.0
+        self.__visible = True
+        self.__destroyed = False
 
         # Add this to it's own group for rendering
-        self.mygroup = pygame.sprite.GroupSingle(self)
+        self.__mygroup = pygame.sprite.GroupSingle(self)
 
     # Draws the sprite onto the provided surface
     def draw(self):
@@ -244,6 +279,11 @@ class Sprite(pygame.sprite.Sprite):
         Draw the current sprite at it's current location
         Scale and rotate as necessary
         '''
+
+        # If it's not visible, we're done
+        if not self.__visible:
+            return
+
         # If it's a single image, grab it.  Else, grab the next one in line
         if len(self.__image_list) == 1:
             self.image = self.__image_list[0]
@@ -255,26 +295,50 @@ class Sprite(pygame.sprite.Sprite):
             self.image, self.__flip_x, self.__flip_y)
 
         # Rotate and scale
-        #self.image = pygame.transform.rotozoom(
-        #    self.image, self.__angle, self.__scale)
+        self.image = pygame.transform.rotozoom(
+            self.image, self.__angle, self.__scale)
+        #self.rect.width *= self.__scale
+        #self.rect.height *= self.__scale
+
         #TODO: Inspect this code closely and rewrite
-        width = int(self.rect.width * self.__scale)
-        height = int(self.rect.height * self.__scale)
+        '''
+        width = int(self.image.get_width() * self.__scale)
+        height = int(self.image.get_height() * self.__scale)
         newimage = pygame.transform.scale(self.image, (width, height))
-        self.image = pygame.Surface((width, height), flags=pygame.SRCALPHA)
-        self.image.blit(newimage, (0,0), (0,0,width,height))
+        self.image = pygame.Surface((width, height), pygame.SRCALPHA, newimage)
+        #self.image.blit(newimage, (0,0))
         self.image = pygame.transform.rotate(self.image, self.__angle)
         self.rect = self.image.get_rect()
-
+        '''
         # TODO: Rotation looks wierd, might want to try something different
 
-        # Draw it
-        self.mygroup.draw(pygame.display.get_surface())
+        # Draw it onto the display surface
+        self.__mygroup.draw(pygame.display.get_surface())
 
     def update(self, ticks):
+        '''
+        Updates an animated sprite to the next image, using the timer provided
+        Calculates the number of milliseconds to wait, and checks to see if
+        that much time has passed.  If so, we change to the next image.
+        Otherwise, we don't.
+        param: ticks the number of milliseconds that has passed so far
+        '''
+
+        # First, if there's only one image, we're done
+        if len(self.__image_list) == 1:
+            return
+
+        # Adjust the time to be aware of the animation rate set
+        # Normal framerate is 30, so we need to scale ticks accordingly
+        ticks /= (self.__image_animation_rate/30)
         elapsed = pygame.time.get_ticks() - self.__last_time
+
+        # Has enough time passed?
         if elapsed > ticks:
+            # Reset the timer
             self.__last_time = pygame.time.get_ticks()
+
+            # Pick the next image, wrap around if necessary
             self.__current_cell += 1
             if self.__current_cell >= len(self.__image_list):
                 self.__current_cell = 0

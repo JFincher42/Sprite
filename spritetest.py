@@ -17,17 +17,23 @@ bullwinkle = sprite.Sprite(bullwinkle_sheet, xpos, ypos)
 
 dragon_sheet = imagesheet.ImageSheet(os.path.join(".", "dragonflying.png"), 4, 6)
 dragon = sprite.Sprite(dragon_sheet, xpos, ypos)
-dragon.scale = 0.5
+dragon.scale = 1
+dragon.image_animation_rate = 45
 print("Width=" + str(dragon.rect.width) + ", Height=" + str(dragon.rect.height))
 
 #spaceship = sprite.Sprite(sheet, xpos, ypos)
 #spaceship.current_sprite = 2
 
+scalefact = -0.1
 drawing = True
 while drawing:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:           # pylint: disable=E1101
             drawing = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if dragon.scale <= 0.5 or dragon.scale >= 1.5:
+                scalefact *= -1
+            dragon.scale = dragon.scale + scalefact
 
     w.fill((128, 128, 128))
     x, y = pygame.mouse.get_pos()
@@ -40,9 +46,13 @@ while drawing:
     #bullwinkle.update(c.get_time())
     #bullwinkle.draw()
 
+
+
     dragon.center = (x,y)
     dragon.update(c.get_time())
     dragon.draw()
+
+    pygame.draw.rect(w, (255,255,255), dragon.rect, 1)
 
     pygame.display.flip()
     c.tick(30)
