@@ -6,6 +6,7 @@ import sprite
 import imagesheet
 import pygame           # pylint: disable=E1101
 import os
+import random
 
 pygame.init()           # pylint: disable=E1101
 w = pygame.display.set_mode([1018, 573])
@@ -19,10 +20,13 @@ incomingsheet = imagesheet.ImageSheet(os.path.join(".", "roundshipspin.png"), 5,
 #impact = sprite.Sprite(impactsheet, 0, 0)
 #incoming = sprite.Sprite(incomingsheet, 0, 0)
 
-ship.center = (75, 265)
+ship_x, ship_y = 75, 265
+ship.center = (ship_x, ship_y)
 ship_speed = 0.2
+
 missile_speed = 0.5
 background_speed = 0.1
+
 enemy_speed = 0.2
 enemy_time = 1200
 
