@@ -1,38 +1,39 @@
 import sprite
 import imagesheet
-import pygame
+import pygame           # pylint: disable=E1101
 import os
 
-pygame.init()           #pylint: disable=E1101
-w = pygame.display.set_mode([400, 400])
+pygame.init()           # pylint: disable=E1101
+w = pygame.display.set_mode([1018, 573])
 c = pygame.time.Clock()
 
-xpos = 100
-ypos = 100
-sheet = imagesheet.ImageSheet(os.path.join(".", "spaceship_sprite.png"), 2, 2)
-spaceship = sprite.Sprite(os.path.join(".", "spaceship_sprite.png"), xpos, ypos)
-spaceship = sprite.Sprite(os.path.join(
-    ".", "spaceship_sprite.png"), xpos, ypos)
-#spaceship = sprite.Sprite(sheet, xpos, ypos)
-#spaceship.current_sprite = 3
+dragon_sheet = imagesheet.ImageSheet(os.path.join(".", "dragonflying.png"), 4, 6)
+dragon = sprite.Sprite(dragon_sheet, 0, 0)
+dragon.scale = .7
+dragon.image_animation_rate = 45
 
+puffin_sheet = imagesheet.ImageSheet(os.path.join(".", "puffinflysheet.png"), 5, 6)
+puffin = sprite.Sprite(puffin_sheet, 0, 0)
+
+background = sprite.Sprite(os.path.join(".", "skyscrolling.jpg"), 0, 0)
+
+scalefact = -0.1
 drawing = True
 while drawing:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:   #pylint: disable=E1101
+        if event.type == pygame.QUIT:           # pylint: disable=E1101
             drawing = False
 
-    w.fill((128, 128, 128))
-<<<<<<< HEAD
-    x,y = pygame.mouse.get_pos()
-    spaceship.center = (x,y)
-    spaceship.flip_y = False
-=======
     x, y = pygame.mouse.get_pos()
-    spaceship.center = (x, y)
-    #spaceship.flip_y = True
-    spaceship.angle += 1
->>>>>>> c9f2863386223ea03eafe4550548c36d9e4f29cd
-    spaceship.draw()
+
+    background.center_x -= .1 * c.get_time()
+    if background.center_x < 0:
+        background.center_x = 1018
+    background.draw()
+
+    puffin.center = (x,y)
+    puffin.update(c.get_time())
+    puffin.draw()
+
     pygame.display.flip()
     c.tick(30)
