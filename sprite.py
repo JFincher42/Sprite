@@ -63,28 +63,28 @@ class Sprite(pygame.sprite.Sprite):
         '''
         Returns the center_x property from the image rect
         '''
-        return self.rect.center_x
+        return self.rect.centerx
 
     @property
     def center_y(self):
         '''
         Returns the center_y property from the image rect
         '''
-        return self.rect.center_y
+        return self.rect.centery
 
     @center_x.setter
     def center_x(self, new_center_x):
         '''
         Sets the center_x property of the image rect to the provided new_center_x
         '''
-        self.rect.center_x = new_center_x
+        self.rect.centerx = new_center_x
 
     @center_y.setter
     def center_y(self, new_center_y):
         '''
         Sets the center_y property of the image rect to the provided new_center_y
         '''
-        self.rect.center_y = new_center_y
+        self.rect.centery = new_center_y
 
     # X and Y properties
     @property
