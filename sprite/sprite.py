@@ -1,6 +1,6 @@
 import pygame
 
-from sprite import imagesheet
+import imagesheet
 
 # Define some constants
 WHITE = (255, 255, 255)

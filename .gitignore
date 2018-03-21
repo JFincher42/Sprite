@@ -108,3 +108,6 @@ ENV/
 
 # paint.net files
 *.pdn
+
+# PyCharm stuff
+.idea/
