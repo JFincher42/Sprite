@@ -2,7 +2,7 @@ import os
 
 import pygame  # pylint: disable=E1101
 
-from sprite import *
+import sprite, imagesheet
 
 pygame.init()           # pylint: disable=E1101
 w = pygame.display.set_mode([1018, 573])
