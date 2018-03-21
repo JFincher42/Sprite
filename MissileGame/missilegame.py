@@ -2,11 +2,12 @@
 ## Missile Game
 ##
 
-import sprite
-import imagesheet
-import pygame           # pylint: disable=E1101
 import os
 import random
+
+import pygame  # pylint: disable=E1101
+
+from sprite import *
 
 pygame.init()           # pylint: disable=E1101
 w = pygame.display.set_mode([1018, 573])

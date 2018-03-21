@@ -1,13 +1,14 @@
-import sprite
-import imagesheet
-import pygame           # pylint: disable=E1101
 import os
+
+import pygame  # pylint: disable=E1101
+
+from sprite import *
 
 pygame.init()           # pylint: disable=E1101
 w = pygame.display.set_mode([1018, 573])
 c = pygame.time.Clock()
 
-dragon_sheet = imagesheet.ImageSheet(os.path.join(".", "dragonflying.png"), 4, 6)
+dragon_sheet = sprite.imagesheet.ImageSheet(os.path.join(".", "dragonflying.png"), 4, 6)
 dragon = sprite.Sprite(dragon_sheet, 0, 0)
 dragon.scale = .7
 dragon.image_animation_rate = 45
