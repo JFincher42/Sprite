@@ -300,10 +300,11 @@ class Sprite(pygame.sprite.Sprite):
             self.image, self.__flip_x, self.__flip_y)
 
         # Rotate and scale
-        #self.image = pygame.transform.rotozoom(
-        #    self.image, self.__angle, self.__scale)
-        self.image = pygame.transform.scale(self.image, (self.rect.width, self.rect.height))
-        self.image = pygame.transform.rotate(self.image, self.__angle)
+        self.image = pygame.transform.rotozoom(
+            self.image, self.__angle, self.__scale)
+        #self.image = pygame.transform.scale(self.image, (self.rect.width, self.rect.height))
+        #self.image = pygame.transform.rotate(self.image, self.__angle)
+        #self.image = pygame.transform.scale(self.image, (self.rect.width, self.rect.height))
         #self.rect.width *= self.__scale
         #self.rect.height *= self.__scale
 
