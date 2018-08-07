@@ -5,13 +5,15 @@ Jon Fincher, July 2018
 '''
 import os
 import unittest
+import pygame
 import sprite
 import imagesheet
 
 class TestImageSheet(unittest.TestCase):
 
     def setUp(self):
-
+        pygame.init()           # pylint: disable=E1101
+        w = pygame.display.set_mode([500,500])
         self.spaceship_sheet = sprite.imagesheet.ImageSheet(os.path.join("SpriteDemo", "spaceship_sprite.png"),1,1)
         self.dragon_sheet = sprite.imagesheet.ImageSheet(os.path.join("SpriteDemo", "dragonflying.png"), 4, 6)
 
@@ -26,4 +28,4 @@ class TestImageSheet(unittest.TestCase):
     '''
     def test_animated_image(self):
         self.assertEqual(self.dragon_sheet.SPRITECOUNT, 24, "Did not load animated sprite image properly.")
-        self.assertEqual(self.dragon_sheet.sprite_list.count, 24, "Sprite list count doesn't match SPRITE_COUNT")
+        self.assertEqual(len(self.dragon_sheet.sprite_list), 24, "Sprite list count doesn't match SPRITE_COUNT")
