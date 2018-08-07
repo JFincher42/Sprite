@@ -7,3 +7,5 @@ url = "https://pypi.python.org/simple"
 pygame = "*"
 
 [dev-packages]
+pylint = "<2.0.0"
+pytest = "*"
